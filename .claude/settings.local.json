@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm install:*)",
+      "Bash(wait && npm run build 2>&1)",
+      "Bash(npm run:*)",
+      "Bash(git init:*)"
+    ]
+  }
+}
