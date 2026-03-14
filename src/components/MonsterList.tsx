@@ -131,9 +131,9 @@ export function MonsterList({
                     <td className="px-4 py-3 text-slate-400 align-top">{monster.type}</td>
                     <td className="px-4 py-3 align-top">
                       <div className="space-y-1">
-                        <ModeRow label="Normal" value={monster.normalAttack} />
-                        <ModeRow label="Enraged" value={monster.enragedAttack} />
-                        {monster.extraModes.map((mode, i) => (
+                        {monster.normalAttack && <ModeRow label="Normal" value={monster.normalAttack} />}
+                        {monster.enragedAttack && <ModeRow label="Enraged" value={monster.enragedAttack} />}
+                        {monster.extraModes.filter((m) => m.attack).map((mode, i) => (
                           <ModeRow key={i} label={mode.label} value={mode.attack} />
                         ))}
                       </div>
