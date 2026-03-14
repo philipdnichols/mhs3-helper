@@ -17,6 +17,7 @@ export const MONSTER_TYPES = [
   'Flying Wyvern',
   'Herbivore',
   'Leviathan',
+  'Neopteron',
   'Piscine Wyvern',
   'Small Monster',
   'Temnoceran',
