@@ -33,15 +33,15 @@ export function MonsterList({
     return matchesSearch && matchesType;
   });
 
-  const handleAdd = async (input: MonsterInput) => {
-    await onAdd(input);
+  const handleAdd = (input: MonsterInput) => {
     setShowForm(false);
+    onAdd(input);
   };
 
-  const handleUpdate = async (input: MonsterInput) => {
+  const handleUpdate = (input: MonsterInput) => {
     if (!editing) return;
-    await onUpdate(editing.id, input);
     setEditing(null);
+    onUpdate(editing.id, input);
   };
 
   const handleDelete = async () => {

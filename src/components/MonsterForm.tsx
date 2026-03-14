@@ -5,7 +5,7 @@ import { AttackSelector } from './AttackSelector';
 
 interface MonsterFormProps {
   initial?: Monster;
-  onSave: (input: MonsterInput) => Promise<void>;
+  onSave: (input: MonsterInput) => void;
   onCancel: () => void;
 }
 
@@ -14,23 +14,15 @@ export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
   const [type, setType] = useState<MonsterInput['type']>(initial?.type ?? MONSTER_TYPES[0]);
   const [normalAttack, setNormalAttack] = useState<AttackType | null>(initial?.normalAttack ?? null);
   const [enragedAttack, setEnragedAttack] = useState<AttackType | null>(initial?.enragedAttack ?? null);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       setError('Monster name is required.');
       return;
     }
-    setError('');
-    setSaving(true);
-    try {
-      await onSave({ name: name.trim(), type, normalAttack, enragedAttack });
-    } catch {
-      setError('Failed to save. Please try again.');
-      setSaving(false);
-    }
+    onSave({ name: name.trim(), type, normalAttack, enragedAttack });
   };
 
   return (
@@ -85,10 +77,9 @@ export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
             <div className="flex gap-3 pt-2">
               <button
                 type="submit"
-                disabled={saving}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-semibold py-2 rounded-lg transition-colors"
+                className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 rounded-lg transition-colors"
               >
-                {saving ? 'Saving…' : 'Save'}
+                Save
               </button>
               <button
                 type="button"
