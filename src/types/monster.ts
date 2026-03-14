@@ -26,15 +26,21 @@ export const MONSTER_TYPES = [
 
 export type MonsterType = (typeof MONSTER_TYPES)[number];
 
+export interface AttackMode {
+  label: string;
+  attack: AttackType | null;
+}
+
 export interface Monster {
   id: string;
   name: string;
   type: MonsterType;
   normalAttack: AttackType | null;
   enragedAttack: AttackType | null;
+  extraModes: AttackMode[];
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: number;
 }
 
-export type MonsterInput = Pick<Monster, 'name' | 'type' | 'normalAttack' | 'enragedAttack'>;
+export type MonsterInput = Pick<Monster, 'name' | 'type' | 'normalAttack' | 'enragedAttack' | 'extraModes'>;

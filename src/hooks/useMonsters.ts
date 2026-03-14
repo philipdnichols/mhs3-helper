@@ -24,10 +24,11 @@ export function useMonsters() {
       (snapshot) => {
         const data = snapshot.docs.map((d) => ({
           id: d.id,
+          extraModes: [],
           ...d.data(),
           createdAt: d.data().createdAt?.toDate() ?? new Date(),
           updatedAt: d.data().updatedAt?.toDate() ?? new Date(),
-        })) as Monster[];
+        })) as unknown as Monster[];
         setMonsters(data);
         setLoading(false);
       },

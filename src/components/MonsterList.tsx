@@ -50,8 +50,12 @@ export function MonsterList({
     setConfirmDelete(null);
   };
 
-  const AttackCell = ({ value }: { value: AttackType | null }) =>
-    value ? <PatternChip type={value} /> : <span className="text-slate-600">—</span>;
+  const ModeRow = ({ label, value }: { label: string; value: AttackType | null }) => (
+    <div className="flex items-center gap-2">
+      <span className="text-slate-500 text-xs w-20 shrink-0 truncate" title={label}>{label}</span>
+      {value ? <PatternChip type={value} /> : <span className="text-slate-600">—</span>}
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -92,9 +96,7 @@ export function MonsterList({
           >
             <option value="">All Types</option>
             {MONSTER_TYPES.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
+              <option key={t} value={t}>{t}</option>
             ))}
           </select>
           <button
@@ -118,19 +120,25 @@ export function MonsterList({
                 <tr>
                   <th className="px-4 py-3 font-medium">Name</th>
                   <th className="px-4 py-3 font-medium">Type</th>
-                  <th className="px-4 py-3 font-medium">Normal</th>
-                  <th className="px-4 py-3 font-medium">Enraged</th>
+                  <th className="px-4 py-3 font-medium">Attack Modes</th>
                   <th className="px-4 py-3 font-medium sr-only">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">
                 {filtered.map((monster) => (
                   <tr key={monster.id} className="bg-slate-900 hover:bg-slate-800 transition-colors">
-                    <td className="px-4 py-3 font-medium text-white">{monster.name}</td>
-                    <td className="px-4 py-3 text-slate-400">{monster.type}</td>
-                    <td className="px-4 py-3"><AttackCell value={monster.normalAttack} /></td>
-                    <td className="px-4 py-3"><AttackCell value={monster.enragedAttack} /></td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 font-medium text-white align-top">{monster.name}</td>
+                    <td className="px-4 py-3 text-slate-400 align-top">{monster.type}</td>
+                    <td className="px-4 py-3 align-top">
+                      <div className="space-y-1">
+                        <ModeRow label="Normal" value={monster.normalAttack} />
+                        <ModeRow label="Enraged" value={monster.enragedAttack} />
+                        {monster.extraModes.map((mode, i) => (
+                          <ModeRow key={i} label={mode.label} value={mode.attack} />
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 align-top">
                       <div className="flex gap-2 justify-end">
                         <button
                           onClick={() => setEditing(monster)}
