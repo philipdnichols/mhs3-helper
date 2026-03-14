@@ -67,13 +67,24 @@ export function MonsterList({
 
       <main className="p-6 max-w-5xl mx-auto">
         <div className="flex flex-wrap gap-3 mb-6">
-          <input
-            type="text"
-            placeholder="Search monsters…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-56"
-          />
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search monsters…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 pr-8 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-56"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value as MonsterType | '')}
