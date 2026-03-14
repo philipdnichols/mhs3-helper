@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Monster, MonsterInput, MonsterType } from '../types/monster';
+import type { Monster, MonsterInput, MonsterType, AttackType } from '../types/monster';
 import { MONSTER_TYPES } from '../types/monster';
 import { PatternChip } from './PatternChip';
 import { MonsterForm } from './MonsterForm';
@@ -50,9 +50,11 @@ export function MonsterList({
     setConfirmDelete(null);
   };
 
+  const AttackCell = ({ value }: { value: AttackType | null }) =>
+    value ? <PatternChip type={value} /> : <span className="text-slate-600">—</span>;
+
   return (
     <div className="min-h-screen bg-slate-950 text-white">
-      {/* Header */}
       <header className="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
         <h1 className="text-xl font-bold text-white">MHS3 Monster Tracker</h1>
         <button
@@ -63,8 +65,7 @@ export function MonsterList({
         </button>
       </header>
 
-      <main className="p-6 max-w-6xl mx-auto">
-        {/* Controls */}
+      <main className="p-6 max-w-5xl mx-auto">
         <div className="flex flex-wrap gap-3 mb-6">
           <input
             type="text"
@@ -93,7 +94,6 @@ export function MonsterList({
           </button>
         </div>
 
-        {/* Table */}
         {loading ? (
           <p className="text-slate-400">Loading…</p>
         ) : filtered.length === 0 ? (
@@ -107,8 +107,8 @@ export function MonsterList({
                 <tr>
                   <th className="px-4 py-3 font-medium">Name</th>
                   <th className="px-4 py-3 font-medium">Type</th>
-                  <th className="px-4 py-3 font-medium">Normal Pattern</th>
-                  <th className="px-4 py-3 font-medium">Enraged Pattern</th>
+                  <th className="px-4 py-3 font-medium">Normal</th>
+                  <th className="px-4 py-3 font-medium">Enraged</th>
                   <th className="px-4 py-3 font-medium sr-only">Actions</th>
                 </tr>
               </thead>
@@ -117,24 +117,8 @@ export function MonsterList({
                   <tr key={monster.id} className="bg-slate-900 hover:bg-slate-800 transition-colors">
                     <td className="px-4 py-3 font-medium text-white">{monster.name}</td>
                     <td className="px-4 py-3 text-slate-400">{monster.type}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex flex-wrap gap-1">
-                        {monster.normalPattern.length === 0 ? (
-                          <span className="text-slate-600">—</span>
-                        ) : (
-                          monster.normalPattern.map((t, i) => <PatternChip key={i} type={t} />)
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex flex-wrap gap-1">
-                        {monster.enragedPattern.length === 0 ? (
-                          <span className="text-slate-600">—</span>
-                        ) : (
-                          monster.enragedPattern.map((t, i) => <PatternChip key={i} type={t} />)
-                        )}
-                      </div>
-                    </td>
+                    <td className="px-4 py-3"><AttackCell value={monster.normalAttack} /></td>
+                    <td className="px-4 py-3"><AttackCell value={monster.enragedAttack} /></td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2 justify-end">
                         <button
@@ -163,21 +147,18 @@ export function MonsterList({
         </p>
       </main>
 
-      {/* Add form */}
       {showForm && <MonsterForm onSave={handleAdd} onCancel={() => setShowForm(false)} />}
-
-      {/* Edit form */}
       {editing && (
         <MonsterForm initial={editing} onSave={handleUpdate} onCancel={() => setEditing(null)} />
       )}
 
-      {/* Delete confirmation */}
       {confirmDelete && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
           <div className="bg-slate-800 rounded-2xl p-6 w-full max-w-sm border border-slate-700">
             <h2 className="text-lg font-bold text-white mb-2">Delete Monster?</h2>
             <p className="text-slate-400 mb-6">
-              Are you sure you want to delete <span className="text-white font-medium">{confirmDelete.name}</span>? This cannot be undone.
+              Are you sure you want to delete{' '}
+              <span className="text-white font-medium">{confirmDelete.name}</span>? This cannot be undone.
             </p>
             <div className="flex gap-3">
               <button

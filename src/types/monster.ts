@@ -27,11 +27,11 @@ export interface Monster {
   id: string;
   name: string;
   type: MonsterType;
-  normalPattern: AttackType[];
-  enragedPattern: AttackType[];
+  normalAttack: AttackType | null;
+  enragedAttack: AttackType | null;
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: number;
 }
 
-export type MonsterInput = Pick<Monster, 'name' | 'type' | 'normalPattern' | 'enragedPattern'>;
+export type MonsterInput = Pick<Monster, 'name' | 'type' | 'normalAttack' | 'enragedAttack'>;

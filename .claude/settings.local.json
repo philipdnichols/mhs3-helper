@@ -5,7 +5,14 @@
       "Bash(npm install:*)",
       "Bash(wait && npm run build 2>&1)",
       "Bash(npm run:*)",
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(git remote:*)",
+      "Bash(gh api:*)",
+      "Bash(gh run:*)",
+      "Bash(git add:*)"
     ]
   }
 }

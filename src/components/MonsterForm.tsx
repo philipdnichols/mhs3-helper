@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import type { Monster, MonsterInput, AttackType } from '../types/monster';
 import { MONSTER_TYPES } from '../types/monster';
-import { PatternBuilder } from './PatternBuilder';
+import { AttackSelector } from './AttackSelector';
 
 interface MonsterFormProps {
   initial?: Monster;
@@ -12,8 +12,8 @@ interface MonsterFormProps {
 export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
   const [name, setName] = useState(initial?.name ?? '');
   const [type, setType] = useState<MonsterInput['type']>(initial?.type ?? MONSTER_TYPES[0]);
-  const [normalPattern, setNormalPattern] = useState<AttackType[]>(initial?.normalPattern ?? []);
-  const [enragedPattern, setEnragedPattern] = useState<AttackType[]>(initial?.enragedPattern ?? []);
+  const [normalAttack, setNormalAttack] = useState<AttackType | null>(initial?.normalAttack ?? null);
+  const [enragedAttack, setEnragedAttack] = useState<AttackType | null>(initial?.enragedAttack ?? null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -26,7 +26,7 @@ export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
     setError('');
     setSaving(true);
     try {
-      await onSave({ name: name.trim(), type, normalPattern, enragedPattern });
+      await onSave({ name: name.trim(), type, normalAttack, enragedAttack });
     } catch {
       setError('Failed to save. Please try again.');
       setSaving(false);
@@ -35,7 +35,7 @@ export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-800 rounded-2xl w-full max-w-lg shadow-2xl border border-slate-700 max-h-[90vh] overflow-y-auto">
+      <div className="bg-slate-800 rounded-2xl w-full max-w-lg shadow-2xl border border-slate-700">
         <div className="p-6">
           <h2 className="text-xl font-bold text-white mb-6">
             {initial ? 'Edit Monster' : 'Add Monster'}
@@ -68,16 +68,16 @@ export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
               </select>
             </div>
 
-            <PatternBuilder
-              label="Normal Attack Pattern"
-              pattern={normalPattern}
-              onChange={setNormalPattern}
+            <AttackSelector
+              label="Normal Attack"
+              value={normalAttack}
+              onChange={setNormalAttack}
             />
 
-            <PatternBuilder
-              label="Enraged Attack Pattern"
-              pattern={enragedPattern}
-              onChange={setEnragedPattern}
+            <AttackSelector
+              label="Enraged Attack"
+              value={enragedAttack}
+              onChange={setEnragedAttack}
             />
 
             {error && <p className="text-red-400 text-sm">{error}</p>}

@@ -3,10 +3,22 @@ import { useMonsters } from './hooks/useMonsters';
 import { Login } from './components/Login';
 import { MonsterList } from './components/MonsterList';
 
+function AuthenticatedApp({ onLogout }: { onLogout: () => void }) {
+  const { monsters, loading, addMonster, updateMonster, deleteMonster } = useMonsters();
+  return (
+    <MonsterList
+      monsters={monsters}
+      loading={loading}
+      onAdd={addMonster}
+      onUpdate={updateMonster}
+      onDelete={deleteMonster}
+      onLogout={onLogout}
+    />
+  );
+}
+
 export default function App() {
   const { user, loading: authLoading, login, logout } = useAuth();
-  const { monsters, loading: monstersLoading, addMonster, updateMonster, deleteMonster } =
-    useMonsters();
 
   if (authLoading) {
     return (
@@ -20,14 +32,5 @@ export default function App() {
     return <Login onLogin={login} />;
   }
 
-  return (
-    <MonsterList
-      monsters={monsters}
-      loading={monstersLoading}
-      onAdd={addMonster}
-      onUpdate={updateMonster}
-      onDelete={deleteMonster}
-      onLogout={logout}
-    />
-  );
+  return <AuthenticatedApp onLogout={logout} />;
 }

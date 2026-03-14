@@ -19,16 +19,23 @@ export function useMonsters() {
 
   useEffect(() => {
     const q = query(collection(db, 'monsters'), orderBy('name'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-        createdAt: d.data().createdAt?.toDate() ?? new Date(),
-        updatedAt: d.data().updatedAt?.toDate() ?? new Date(),
-      })) as Monster[];
-      setMonsters(data);
-      setLoading(false);
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map((d) => ({
+          id: d.id,
+          ...d.data(),
+          createdAt: d.data().createdAt?.toDate() ?? new Date(),
+          updatedAt: d.data().updatedAt?.toDate() ?? new Date(),
+        })) as Monster[];
+        setMonsters(data);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Firestore error:', error);
+        setLoading(false);
+      }
+    );
     return unsubscribe;
   }, []);
 
