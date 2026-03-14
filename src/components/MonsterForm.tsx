@@ -5,12 +5,14 @@ import { AttackSelector } from './AttackSelector';
 
 interface MonsterFormProps {
   initial?: Monster;
+  existingBaseNames: string[];
   onSave: (input: MonsterInput) => void;
   onCancel: () => void;
 }
 
-export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
+export function MonsterForm({ initial, existingBaseNames, onSave, onCancel }: MonsterFormProps) {
   const [name, setName] = useState(initial?.name ?? '');
+  const [baseName, setBaseName] = useState(initial?.baseName ?? '');
   const [type, setType] = useState<MonsterInput['type']>(initial?.type ?? MONSTER_TYPES[0]);
   const [normalAttack, setNormalAttack] = useState<AttackType | null>(initial?.normalAttack ?? null);
   const [enragedAttack, setEnragedAttack] = useState<AttackType | null>(initial?.enragedAttack ?? null);
@@ -36,7 +38,7 @@ export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
       setError('All extra modes must have a label.');
       return;
     }
-    onSave({ name: name.trim(), type, normalAttack, enragedAttack, extraModes });
+    onSave({ name: name.trim(), baseName: baseName.trim(), type, normalAttack, enragedAttack, extraModes });
   };
 
   return (
@@ -57,6 +59,25 @@ export function MonsterForm({ initial, onSave, onCancel }: MonsterFormProps) {
                 placeholder="e.g. Rathalos"
                 className="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-1">
+                Base Name <span className="text-slate-500 font-normal">(optional — for grouping)</span>
+              </label>
+              <input
+                type="text"
+                list="base-names"
+                value={baseName}
+                onChange={(e) => setBaseName(e.target.value)}
+                placeholder="e.g. Yian Garuga"
+                className="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+              />
+              <datalist id="base-names">
+                {existingBaseNames.map((n) => (
+                  <option key={n} value={n} />
+                ))}
+              </datalist>
             </div>
 
             <div>

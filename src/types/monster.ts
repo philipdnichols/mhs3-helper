@@ -34,6 +34,7 @@ export interface AttackMode {
 export interface Monster {
   id: string;
   name: string;
+  baseName: string;
   type: MonsterType;
   normalAttack: AttackType | null;
   enragedAttack: AttackType | null;
@@ -43,4 +44,4 @@ export interface Monster {
   schemaVersion: number;
 }
 
-export type MonsterInput = Pick<Monster, 'name' | 'type' | 'normalAttack' | 'enragedAttack' | 'extraModes'>;
+export type MonsterInput = Pick<Monster, 'name' | 'baseName' | 'type' | 'normalAttack' | 'enragedAttack' | 'extraModes'>;

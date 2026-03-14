@@ -27,6 +27,8 @@ export function MonsterList({
   const [editing, setEditing] = useState<Monster | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<Monster | null>(null);
 
+  const existingBaseNames = [...new Set(monsters.map((m) => m.baseName).filter(Boolean))].sort();
+
   const filtered = monsters.filter((m) => {
     const matchesSearch = m.name.toLowerCase().includes(search.toLowerCase());
     const matchesType = typeFilter === '' || m.type === typeFilter;
@@ -166,9 +168,9 @@ export function MonsterList({
         </p>
       </main>
 
-      {showForm && <MonsterForm onSave={handleAdd} onCancel={() => setShowForm(false)} />}
+      {showForm && <MonsterForm existingBaseNames={existingBaseNames} onSave={handleAdd} onCancel={() => setShowForm(false)} />}
       {editing && (
-        <MonsterForm initial={editing} onSave={handleUpdate} onCancel={() => setEditing(null)} />
+        <MonsterForm initial={editing} existingBaseNames={existingBaseNames} onSave={handleUpdate} onCancel={() => setEditing(null)} />
       )}
 
       {confirmDelete && (
