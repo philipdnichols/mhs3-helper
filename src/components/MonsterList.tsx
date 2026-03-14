@@ -52,7 +52,7 @@ export function MonsterList({
 
   const ModeRow = ({ label, value }: { label: string; value: AttackType | null }) => (
     <div className="flex items-center gap-2">
-      <span className="text-slate-500 text-xs w-20 shrink-0 truncate" title={label}>{label}</span>
+      <span className="text-slate-500 text-xs w-36 shrink-0 truncate" title={label}>{label}</span>
       {value ? <PatternChip type={value} /> : <span className="text-slate-600">—</span>}
     </div>
   );
@@ -69,7 +69,7 @@ export function MonsterList({
         </button>
       </header>
 
-      <main className="p-6 max-w-5xl mx-auto">
+      <main className="p-6 max-w-7xl mx-auto">
         <div className="flex flex-wrap gap-3 mb-6">
           <div className="relative">
             <input
