@@ -18,6 +18,7 @@ export const MONSTER_TYPES = [
   'Herbivore',
   'Leviathan',
   'Piscine Wyvern',
+  'Small Monster',
   'Temnoceran',
 ] as const;
 
