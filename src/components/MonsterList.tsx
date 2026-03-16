@@ -38,6 +38,7 @@ export function MonsterList({
 
   const handleAdd = (input: MonsterInput) => {
     setShowForm(false);
+    setCopying(null);
     onAdd(input);
   };
 
