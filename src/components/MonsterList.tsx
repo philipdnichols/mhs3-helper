@@ -25,6 +25,7 @@ export function MonsterList({
   const [typeFilter, setTypeFilter] = useState<MonsterType | ''>('');
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Monster | null>(null);
+  const [copying, setCopying] = useState<Monster | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<Monster | null>(null);
 
   const existingBaseNames = [...new Set(monsters.map((m) => m.baseName).filter(Boolean))].sort();
@@ -143,6 +144,12 @@ export function MonsterList({
                     <td className="px-4 py-3 align-top">
                       <div className="flex gap-2 justify-end">
                         <button
+                          onClick={() => setCopying(monster)}
+                          className="text-slate-400 hover:text-slate-200 transition-colors"
+                        >
+                          Copy
+                        </button>
+                        <button
                           onClick={() => setEditing(monster)}
                           className="text-indigo-400 hover:text-indigo-300 transition-colors"
                         >
@@ -169,6 +176,9 @@ export function MonsterList({
       </main>
 
       {showForm && <MonsterForm existingBaseNames={existingBaseNames} onSave={handleAdd} onCancel={() => setShowForm(false)} />}
+      {copying && (
+        <MonsterForm initial={copying} title="Copy Monster" existingBaseNames={existingBaseNames} onSave={handleAdd} onCancel={() => setCopying(null)} />
+      )}
       {editing && (
         <MonsterForm initial={editing} existingBaseNames={existingBaseNames} onSave={handleUpdate} onCancel={() => setEditing(null)} />
       )}

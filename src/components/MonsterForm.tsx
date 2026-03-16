@@ -5,12 +5,13 @@ import { AttackSelector } from './AttackSelector';
 
 interface MonsterFormProps {
   initial?: Monster;
+  title?: string;
   existingBaseNames: string[];
   onSave: (input: MonsterInput) => void;
   onCancel: () => void;
 }
 
-export function MonsterForm({ initial, existingBaseNames, onSave, onCancel }: MonsterFormProps) {
+export function MonsterForm({ initial, title, existingBaseNames, onSave, onCancel }: MonsterFormProps) {
   const [name, setName] = useState(initial?.name ?? '');
   const [baseName, setBaseName] = useState(initial?.baseName ?? '');
   const [type, setType] = useState<MonsterInput['type']>(initial?.type ?? MONSTER_TYPES[0]);
@@ -46,7 +47,7 @@ export function MonsterForm({ initial, existingBaseNames, onSave, onCancel }: Mo
       <div className="bg-slate-800 rounded-2xl w-full max-w-lg shadow-2xl border border-slate-700 max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <h2 className="text-xl font-bold text-white mb-6">
-            {initial ? 'Edit Monster' : 'Add Monster'}
+            {title ?? (initial ? 'Edit Monster' : 'Add Monster')}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
